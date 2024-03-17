@@ -26,7 +26,7 @@ onMounted(async () => {
     chartData.labels.push(dataPoint.date)
   })
 
-  chartData.labels = chartData.labels.reverse()
+  chartData.labels = chartData.labels.reverse().slice(30)
 
   // Extract dates and initialize skill map
   for (const dataPoint of originalData) {
@@ -49,7 +49,7 @@ onMounted(async () => {
   // Create datasets (unchanged)
   for (const skillName in skillMap) {
       chartData.datasets.push({
-          label: skillName,
+          label: skillName[0].toUpperCase().concat(skillName.slice(1,skillName.length)),
           data: skillMap[skillName]
       });
   }

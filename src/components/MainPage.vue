@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import MainButton from './MainButton.vue';
 import SkillDemand from './SkillDemand.vue';
+import { ref } from 'vue'
+
+const skillsSection = ref(null)
 
 const features = [
     {
@@ -28,7 +31,7 @@ const features = [
             <h2 class="text-3xl leading-relaxed font-medium">Your <span class="text-secondary font-semibold text-4xl">Compass for Navigating</span> the Tech Job Market</h2>
             <!-- <p class="text-sm">Uncover in-demand skills and stay ahead of the curve. Discover emerging tech hubs and pinpoint the hottest job markets. Negotiate with confidence using data-driven salary trends. TechTrends empowers tech professionals, career advisors, and recruiters with the insights they need to navigate the dynamic tech job landscape.</p> -->
             <p class="text-sm">Uncover in-demand skills, discover job hubs, and negotiate with confidence. TechTrends empowers tech professionals to navigate the job market.</p>
-            <MainButton class="w-fit p-2 px-6" />
+            <MainButton :target-scroll="skillsSection" class="w-fit p-2 px-6" />
             <!-- <span class="text-primary font-thin">Tech<span class="text-secondary font-bold">Trends:</span></span> -->
         </div>
         <img src="/images/line-graph.jpg" alt="Image illustrating some graphs" class="rounded-lg shadow-lg">
@@ -47,10 +50,13 @@ const features = [
                 <p>{{ feature.subtext }}</p>
             </div>
         </div>
-        <MainButton class="justify-self-center w-fit" />
+        <MainButton :target-scroll="skillsSection" class="justify-self-center w-fit" />
     </section>
-    <section class="container-base my-8 justify-center text-center">
-        <h2>Skill Demand over Time</h2>
+    <section ref="skillsSection" class="container-base my-8 justify-center text-center grid gap-20">
+        <div class="grid w-fit text-center justify-self-center">
+            <h2 class="text-primary font-medium text-2xl"><span class="font-semibold">Skill Demand</span> over Time</h2>
+            <div class="h-1 w-32 bg-secondary mt-2.5 justify-self-center"></div>
+        </div>
         <SkillDemand />
     </section>
 </template>

@@ -22,7 +22,7 @@ onMounted(async () => {
   console.log(originalData)
   
 
-  originalData.forEach(dataPoint => {
+  originalData.forEach((dataPoint: any) => {
     chartData.labels.push(dataPoint.date)
   })
 
@@ -69,4 +69,11 @@ const options = {
 
 <template>
     <Line :options="options" :data="{...chartData, datasets: chartData.datasets.slice(0,6)}" />
+
+    <div>
+      <div>
+        <p>HTML</p>
+        <input type="checkbox" name="" id="">
+      </div>
+    </div>
 </template>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const props = defineProps<{
-    targetScroll?: HTMLElement
+    targetScroll?: HTMLElement | null
 }>()
 
 const scrollToTarget = () => {

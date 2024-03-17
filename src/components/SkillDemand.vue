@@ -13,8 +13,8 @@ const fetchData = async () => {
   return skills
 }
 
-const chartData = reactive({ labels: [], datasets: [] });
-const skillMap = reactive({});
+const chartData = reactive({ labels: [] as any[], datasets: [] as any[] });
+const skillMap = reactive({} as any);
 
 onMounted(async () => {
   const originalData = (await fetchData()).skillsData
@@ -23,7 +23,7 @@ onMounted(async () => {
   
 
   originalData.forEach((dataPoint: any) => {
-    chartData.labels.push(dataPoint.date)
+    chartData.labels.push(dataPoint.date as any)
   })
 
   chartData.labels = chartData.labels.reverse().slice(30)
@@ -31,15 +31,15 @@ onMounted(async () => {
   // Extract dates and initialize skill map
   for (const dataPoint of originalData) {
       for (const skill of dataPoint.skills) {
-          if (!skillMap[skill.name]) {
-              skillMap[skill.name] = Array(chartData.labels.length).fill(0); // Initialize as empty arrays
+          if (!(skillMap[skill.name] as { [key: string]: any })) {
+              (skillMap[skill.name] as { [key: string]: any}) = Array(chartData.labels.length).fill(0); // Initialize as empty arrays
           }
       }
   }
 
   // Populate skill data
   for (const dataPoint of originalData) {
-      const dateIndex = chartData.labels.indexOf(dataPoint.date);
+      const dateIndex = chartData.labels.indexOf(dataPoint.date as any);
 
       for (const skill of dataPoint.skills) {
           skillMap[skill.name][dateIndex] = skill.count;
@@ -51,7 +51,7 @@ onMounted(async () => {
       chartData.datasets.push({
           label: skillName[0].toUpperCase().concat(skillName.slice(1,skillName.length)),
           data: skillMap[skillName]
-      });
+      } as any);
   }
 })
 

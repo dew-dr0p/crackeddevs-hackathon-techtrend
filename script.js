@@ -1,5 +1,5 @@
 async function getJobs() {
-    const res = await fetch(`https://api.crackeddevs.com/v1/get-jobs?limit=${30}&page=${154}`, {
+    const res = await fetch(`https://api.crackeddevs.com/v1/get-jobs?limit=${30}&page=${155}`, {
         headers: {
             'api-key': '9803c851-b077-496e-b76b-0cda49d7724b'
         }

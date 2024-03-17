@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Chart as ChartJS, registerables } from 'chart.js'
 import { Line } from 'vue-chartjs'
-import { onMounted, reactive } from 'vue'
+import { onMounted, reactive, computed, watch } from 'vue'
 
 ChartJS.register(...registerables)
 
@@ -15,6 +15,7 @@ const fetchData = async () => {
 
 const chartData = reactive({ labels: [] as any[], datasets: [] as any[] });
 const skillMap = reactive({} as any);
+
 
 onMounted(async () => {
   const originalData = (await fetchData()).skillsData
@@ -50,7 +51,8 @@ onMounted(async () => {
   for (const skillName in skillMap) {
       chartData.datasets.push({
           label: skillName[0].toUpperCase().concat(skillName.slice(1,skillName.length)),
-          data: skillMap[skillName]
+          data: skillMap[skillName],
+          skillVisibility: false,
       } as any);
   }
 })
@@ -60,20 +62,39 @@ console.log(chartData, skillMap)
 const options = {
   responsive: true,
   scales: {
-    y: {
+    x: { 
+      title: { display: true, text: 'Dates' }  
+    },
+    y: { 
+      title: { display: true, text: 'Skill Count'},
       beginAtZero: true // Start the y-axis at 0
     }
   },
+  plugins: {
+    title: {
+      display: true,
+      text: 'Skills vs Time' 
+    },
+    colors: {
+      forceOverride: true
+    }
+  }
 }
+
+const filteredChartData = computed(() => {
+  return {
+    ...chartData, 
+    datasets: chartData.datasets.filter(skill => skill.skillVisibility === true)
+  }
+})
 </script>
 
 <template>
-    <Line :options="options" :data="{...chartData, datasets: chartData.datasets.slice(0,6)}" />
-
-    <div>
-      <div>
-        <p>HTML</p>
-        <input type="checkbox" name="" id="">
+    <Line :options="options" :data="filteredChartData" />
+    <div class="grid grid-cols-6 justify-center">
+      <div v-for="(skill, index) in chartData.datasets" :key="index" class="flex gap-2">
+        <input v-model="skill.skillVisibility" type="checkbox" name="skill" :id="`skill[${skill.label.toLowerCase()}]`">
+        <label :for="`skill[${skill.label.toLowerCase()}]`" class="font-medium text-secondary cursor-pointer">{{ skill.label }}</label>
       </div>
     </div>
 </template>

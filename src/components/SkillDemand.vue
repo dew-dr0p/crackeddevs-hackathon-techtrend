@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Chart as ChartJS, registerables } from 'chart.js'
 import { Line } from 'vue-chartjs'
-import { onMounted, reactive, computed, watch } from 'vue'
+import { onMounted, reactive, computed } from 'vue'
 
 ChartJS.register(...registerables)
 
@@ -54,6 +54,10 @@ onMounted(async () => {
           data: skillMap[skillName],
           skillVisibility: false,
       } as any);
+  }
+
+  for (let i = 0; i <= 6; i++) {
+    chartData.datasets[i].skillVisibility = true
   }
 })
 
